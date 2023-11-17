@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Roteador from './componentes/roteador';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
   <React.StrictMode>
     <Roteador />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
-reportWebVitals();

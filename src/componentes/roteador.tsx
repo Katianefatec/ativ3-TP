@@ -1,6 +1,6 @@
 import { Component } from "react";
-import BarraNavegacao from "./barraNavegacao";
-import FormularioCadastroCliente from "./formularioCadastroCliente";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./Login";
 import ListaCliente from "./listaCliente";
 
 type state = {
@@ -11,7 +11,7 @@ export default class Roteador extends Component<{}, state> {
     constructor(props: {} | Readonly<{}>) {
         super(props)
         this.state = {
-            tela: 'Clientes'
+            tela: 'Login' 
         }
         this.selecionarView = this.selecionarView.bind(this)
     }
@@ -25,22 +25,23 @@ export default class Roteador extends Component<{}, state> {
     }
 
     render() {
-        let barraNavegacao = <BarraNavegacao seletorView={this.selecionarView} tema="purple lighten-4" botoes={['Clientes', 'Cadastros']} />
-        if (this.state.tela === 'Clientes') {
-            return (
-                <>
-                    {barraNavegacao}
-                    <ListaCliente tema="purple lighten-4" />
-                </>
-            )
-        } else {
-            return (
-                <>
-                    {barraNavegacao}
-                    <FormularioCadastroCliente tema="purple lighten-4" />
-                </>
-            )
-        }
-
+        return (
+            <Router>
+                <Switch>
+                    {/* <Route path="/registracompra">
+                        <RegistraCompra />
+                    </Route> */}
+                    {/* <Route path="/produtos">
+                        <ListaProduto />
+                    </Route> */}
+                    <Route path="/clientes">
+                        <ListaCliente />
+                    </Route>
+                    <Route path="/">
+                        <Login />
+                    </Route>
+                </Switch>
+            </Router>
+        ); 
     }
 }
