@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import wbimg from '../assets/logo.png';
-import styles from '../styles.module.css';
+import styles from '../estilos/styles.module.css';
 
 interface State {
     email: string;
@@ -10,8 +10,12 @@ interface State {
     tela?: string;
 }
 
-class Login extends Component<RouteComponentProps, State> {
-    constructor(props: RouteComponentProps) {
+interface LoginProps extends RouteComponentProps {
+    
+}
+
+class Login extends Component<LoginProps, State> {
+    constructor(props: LoginProps) {
         super(props);
         this.state = {
             email: '',
@@ -36,9 +40,9 @@ class Login extends Component<RouteComponentProps, State> {
     }
 
     handleLogin = (event: React.FormEvent) => {
-    event.preventDefault();
-    this.props.history.push('/clientes');
-}
+        event.preventDefault();
+        this.props.history.push('/clientes');
+    }
 
     render() {
         return (
@@ -48,7 +52,7 @@ class Login extends Component<RouteComponentProps, State> {
                         <form className={styles['login-form']} onSubmit={this.handleLogin}>
                         <span className={styles['login-form-title']}>
                                 <img src={wbimg} alt="logo"/> 
-                            </span>                                                         
+                        </span>                                                         
                             <div className={styles['wrap-input']}>
                                 <input className={this.state.email !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
                                 type="email" 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Roteador from './componentes/roteador';
+import Roteador from './unidadeSJC/componentes/roteador';
+
 
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
