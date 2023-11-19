@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import styles from '../../estilos/styles.module.css';
+import styles from '../estilos/styles.module.css';
 
 
 type Produto = {

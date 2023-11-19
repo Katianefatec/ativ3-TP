@@ -1,14 +1,15 @@
 import { Component } from "react";
 import { Route, RouteProps, BrowserRouter as Router, Switch } from "react-router-dom";
 import Login from "./Login";
-import ListaClientesSJC from "./unidadeSJC/componentes/listaClienteSJC";
-import ListaProdutoSJC from "./unidadeSJC/componentes/listaProdutoSJC";
-import ListaServicoSJC from "./unidadeSJC/componentes/listaServicoSJC";
-import MenuSJC from "./unidadeSJC/componentes/MenuSJC";
+import ListaClientesSJC from "./unidadeSJC/listaClienteSJC";
+import ListaProdutoSJC from "./unidadeSJC/listaProdutoSJC";
+import ListaServicoSJC from "./unidadeSJC/listaServicoSJC";
+import MenuSJC from "./unidadeSJC/MenuSJC";
 import ListaProdutoTaubate from "./unidadeTaubate/listaProdutoTaubate";
 import ListaClientesTaubate from "./unidadeTaubate/listaClienteTaubate";
 import ListaServicoTaubate from "./unidadeTaubate/listaServicoTaubate";
 import MenuTaubate from "./unidadeTaubate/MenuTaubate";
+import CadastroSJC from "./unidadeSJC/cadastroClienteSJC";
 
 type state = {
     tela: string
@@ -61,9 +62,12 @@ export default class Roteador extends Component<{}, state> {
         return (
             <Router>
                 <Switch>
-                    {/* <PrivateRoute path="/registracompra" tela={this.state.tela}>
-                        <RegistraCompra />
+                    {/* <PrivateRoute path="/registracompraSJC" tela={this.state.tela}>
+                        <RegistraCompraSJC />
                     </PrivateRoute> */}
+                    <PrivateRoute path="/cadastroSJC" tela={this.state.tela} menu={MenuSJC}>
+                        <CadastroSJC />
+                    </PrivateRoute>
                     <PrivateRoute path="/produtoSJC" tela={this.state.tela} menu={MenuSJC}>
                         <ListaProdutoSJC />
                     </PrivateRoute>

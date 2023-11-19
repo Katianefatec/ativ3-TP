@@ -43,10 +43,12 @@ class Login extends Component<LoginProps, State> {
         event.preventDefault();
         if (this.state.email === 'unidadesjc@gmail.com') {
             this.props.history.push('/clienteSJC');
+            this.setState({ error: '' });
         } else if (this.state.email === 'unidadetaubate@gmail.com') {
             this.props.history.push('/clienteTaubate');
+            this.setState({ error: '' });
         } else {
-            this.props.history.push('/');
+            this.setState({ error: 'Email não cadastrado' });
         }
     }
 
@@ -56,10 +58,11 @@ class Login extends Component<LoginProps, State> {
                 <div className={styles['container-login']}>
                     <div className={styles['wrap-login']}>
                         <form className={styles['login-form']} onSubmit={this.handleLogin}>
+                            
                         <span className={styles['login-form-title']}>
                                 <img src={wbimg} alt="logo"/> 
                         </span>                                                         
-                            <div className={styles['wrap-input']}>
+                        <div className={styles['wrap-input']}>
                                 <input className={this.state.email !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
                                 type="email" 
                                 value={this.state.email}
@@ -67,6 +70,7 @@ class Login extends Component<LoginProps, State> {
                                 required/>
                                 <span className={styles['focus-input']} data-placeholder="Email"></span>
                             </div>
+                            
                             <div className={styles['wrap-input']}>
                                 <input className={this.state.password !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
                                 type="password" 
@@ -75,9 +79,12 @@ class Login extends Component<LoginProps, State> {
                                 required/>
                                 <span className={styles['focus-input']} data-placeholder="Password"></span>                                
                             </div>   
+                            {this.state.error && <div className={styles.error}>{this.state.error}</div>} {/* Adicione a mensagem de erro aqui */}
                             <div className={styles['container-login-form-btn']}>
                                 <button className={styles['login-form-btn']} type="submit">Entrar</button>
                             </div>
+
+                            
                             
                         </form>                         
                     </div>

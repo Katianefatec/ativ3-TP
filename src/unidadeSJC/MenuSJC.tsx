@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../estilos/menu.css";
-import sair from "../../assets/sair.png";
-import wbimg from '../../assets/logo.png';
+import "../estilos/menu.css";
+import sair from "../assets/sair.png";
+import wbimg from '../assets/logo.png';
 
 type State = {
   isMenuOpen: boolean;
