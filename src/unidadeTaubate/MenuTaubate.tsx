@@ -6,11 +6,24 @@ import "../estilos/menu.css";
 import sair from "../assets/sair.png";
 import wbimg from '../assets/logo.png';
 
-class MenuSJC extends Component {
+type State = {
+  isMenuOpen: boolean;
+};
+
+class MenuTaubate extends React.Component<{}, State> {
+  state = {
+    isMenuOpen: false,
+  };
+
+  toggleMenu = () => {
+    this.setState(prevState => ({
+      isMenuOpen: !prevState.isMenuOpen,
+    }));
+  };
   render() {
     return (
       <>
-        <div className="MenuSup">
+       <div className="MenuSup">
           <div id="MenuSupItem">          
           </div>
           <div className="item-menu-sup">
@@ -20,18 +33,25 @@ class MenuSJC extends Component {
             </Nav.Link>
           </div>
         </div>
+        
         <div className="sidebar-fixed">
+        <div className="hamburger-menu" onClick={this.toggleMenu}>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <div className="container-fluid">
             <div className="row">
-              <nav id="sidebar">
+            <nav id="sidebar" className={this.state.isMenuOpen ? 'open' : ''}>
                 <div className="sidebar-header">
                   <img src={wbimg} alt="logo"/> 
                 </div>
                 <div className="list-unstyled components">
-                  <Nav.Link as={Link} to="Painel_tecnico"> Cadastro   </Nav.Link> 
-                  <Nav.Link as={Link} to="Ferramentas_tec">Clientes </Nav.Link>
-                  <Nav.Link as={Link} to="Ativos"> Produtos </Nav.Link>
-                  <Nav.Link as={Link} to="Ativos"> Relatórios </Nav.Link>
+                  <Nav.Link as={Link} to="cadastro"> Cadastro   </Nav.Link> 
+                  <Nav.Link as={Link} to="clienteTaubate">Clientes </Nav.Link>
+                  <Nav.Link as={Link} to="produtoTaubate"> Produtos </Nav.Link>
+                  <Nav.Link as={Link} to="servicoTaubate"> Serviços </Nav.Link>
+                  <Nav.Link as={Link} to="relatorios"> Relatórios </Nav.Link>
                 </div>
               </nav>
             </div>
@@ -42,6 +62,6 @@ class MenuSJC extends Component {
   }
 }
 
-export default MenuSJC;
+export default MenuTaubate;
 
 

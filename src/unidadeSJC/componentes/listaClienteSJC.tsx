@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import styles from '../estilos/styles.module.css';
+import styles from '../../estilos/styles.module.css';
 
 
 type Cliente = {
@@ -20,7 +20,7 @@ type State = {
     clienteModal: Cliente | null;
 }
 
-export default class ListaClientes extends Component<{}, State> {
+export default class ListaClientesSJC extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {

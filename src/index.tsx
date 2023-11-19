@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Roteador from './unidadeSJC/componentes/roteador';
+import Roteador from './roteador';
 
 
 

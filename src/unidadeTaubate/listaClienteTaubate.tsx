@@ -20,7 +20,7 @@ type State = {
     clienteModal: Cliente | null;
 }
 
-export default class ListaClientes extends Component<{}, State> {
+export default class ListaClientesTaubate extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {

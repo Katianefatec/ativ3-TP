@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from '../estilos/styles.module.css';
+import styles from '../../estilos/styles.module.css';
 
 type Servico = {
     nome: string;
@@ -13,7 +13,7 @@ type State = {
     
 }
 
-export default class ListaServicos extends Component<{}, State> {
+export default class ListaServicoSJC extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {

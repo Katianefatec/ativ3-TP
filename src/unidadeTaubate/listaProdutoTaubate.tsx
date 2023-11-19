@@ -14,7 +14,7 @@ type State = {
     
 }
 
-export default class ListaProdutos extends Component<{}, State> {
+export default class ListaProdutoTaubate extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {

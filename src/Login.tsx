@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import wbimg from '../assets/logo.png';
-import styles from '../estilos/styles.module.css';
+import wbimg from './assets/logo.png';
+import styles from './estilos/styles.module.css';
 
 interface State {
     email: string;
@@ -41,7 +41,13 @@ class Login extends Component<LoginProps, State> {
 
     handleLogin = (event: React.FormEvent) => {
         event.preventDefault();
-        this.props.history.push('/clientes');
+        if (this.state.email === 'unidadesjc@gmail.com') {
+            this.props.history.push('/clienteSJC');
+        } else if (this.state.email === 'unidadetaubate@gmail.com') {
+            this.props.history.push('/clienteTaubate');
+        } else {
+            this.props.history.push('/');
+        }
     }
 
     render() {
