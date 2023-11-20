@@ -48,7 +48,7 @@
     }
 
 .login-form-title img {
-    width: 180px;
+    width: 280px;
 }
 
 .wrap-input {
@@ -219,7 +219,7 @@ focus-input {
     margin-left: 300px;
     margin-right: 60px;   
     margin-bottom: 35px;
-    
+    overflow: hidden;
     
 }
 

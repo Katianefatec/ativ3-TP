@@ -138,7 +138,7 @@ export default class ListaClientesTaubate extends Component<{}, State> {
                         </div>
                     <div className={styles['titulo-tabela2']}>
                         <input type="text"  value={filtro} onChange={this.handleFiltroChange} placeholder="Buscar por nome ou CPF" /> 
-                        <Link to="/cadastroSJC">
+                        <Link to="/cadastroTaubate">
                             <button>Cadastrar </button>
                         </Link>
                     </div>                     

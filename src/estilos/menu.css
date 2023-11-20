@@ -26,7 +26,8 @@
   color: black;
   position: fixed;
   top: 0;
-  left: 0;  
+  left: 0;
+  transform: translateX(-100%);
   transition: transform 0.3s ease-out;
   
 }
@@ -36,13 +37,18 @@
 }
 
 .sidebar-header {
-margin-top: 5px;
-text-align: center;
-padding-bottom: 15px;
-}
-
+  display: flex;
+  text-align: left;
+  align-items: center;
+  
+  }
+  
 img {
-  width: 130px;
+  width: 100%;
+  height: 170%;
+  object-fit: cover;
+  margin-top: -20px;
+  
 }
 .list-unstyled {
 padding-left: 0;
@@ -53,6 +59,8 @@ list-style: none;
   display: flex;
   flex-direction: column;
   align-items: left;
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
 .list-unstyled a {
@@ -139,7 +147,7 @@ background-color: #495057;
   .hamburger-menu {
     display: flex;
     margin-left: 10px;
-    margin-top: auto;
+    margin-top: 3px;
   }
   
 }
