@@ -27,7 +27,7 @@ class MenuTaubate extends React.Component<{}, State> {
           <div id="MenuSupItem">          
           </div>
           <div className="item-menu-sup">
-            <h5>Unidade Taubaté</h5>
+            <h5>Unidade Taubate</h5>
             <Nav.Link as={Link} to="/">
               <img src={sair} alt="Sair" className="logout-icon" />
             </Nav.Link>
@@ -47,11 +47,11 @@ class MenuTaubate extends React.Component<{}, State> {
                   <img src={wbimg} alt="logo"/> 
                 </div>
                 <div className="list-unstyled components">
-                  <Nav.Link as={Link} to="cadastro"> Cadastro   </Nav.Link> 
+                  <Nav.Link as={Link} to="cadastroTaubate"> Cadastro   </Nav.Link> 
                   <Nav.Link as={Link} to="clienteTaubate">Clientes </Nav.Link>
                   <Nav.Link as={Link} to="produtoTaubate"> Produtos </Nav.Link>
                   <Nav.Link as={Link} to="servicoTaubate"> Serviços </Nav.Link>
-                  <Nav.Link as={Link} to="relatorios"> Relatórios </Nav.Link>
+                  <Nav.Link as={Link} to="relatoriosTaubate"> Relatórios </Nav.Link>
                 </div>
               </nav>
             </div>

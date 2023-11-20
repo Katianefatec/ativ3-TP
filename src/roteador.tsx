@@ -11,6 +11,10 @@ import ListaServicoTaubate from "./unidadeTaubate/listaServicoTaubate";
 import MenuTaubate from "./unidadeTaubate/MenuTaubate";
 import CadastroSJC from "./unidadeSJC/cadastroClienteSJC";
 
+import Relatorios from "./unidadeSJC/relatoriosSJC";
+import RelatoriosTaubate from "./unidadeTaubate/relatoriosTaubate";
+import CadastroTaubate from "./unidadeTaubate/cadastroTaubate";
+
 type state = {
     tela: string
 }
@@ -62,9 +66,9 @@ export default class Roteador extends Component<{}, state> {
         return (
             <Router>
                 <Switch>
-                    {/* <PrivateRoute path="/registracompraSJC" tela={this.state.tela}>
-                        <RegistraCompraSJC />
-                    </PrivateRoute> */}
+                    <PrivateRoute path="/relatoriosSJC" tela={this.state.tela} menu={MenuSJC}>
+                        <Relatorios/>
+                    </PrivateRoute> 
                     <PrivateRoute path="/cadastroSJC" tela={this.state.tela} menu={MenuSJC}>
                         <CadastroSJC />
                     </PrivateRoute>
@@ -77,7 +81,10 @@ export default class Roteador extends Component<{}, state> {
                     <PrivateRoute path="/servicoSJC" tela={this.state.tela} menu={MenuSJC}>
                         <ListaServicoSJC />
                     </PrivateRoute>
-                    
+
+                    <PrivateRoute path="/cadastroTaubate" tela={this.state.tela} menu={MenuTaubate}>
+                        <CadastroTaubate />
+                    </PrivateRoute>                    
                     <PrivateRoute path="/produtoTaubate" tela={this.state.tela} menu={MenuTaubate}>
                         <ListaProdutoTaubate />
                     </PrivateRoute>
@@ -86,6 +93,9 @@ export default class Roteador extends Component<{}, state> {
                     </PrivateRoute>
                     <PrivateRoute path="/servicoTaubate" tela={this.state.tela} menu={MenuTaubate}>
                         <ListaServicoTaubate />
+                    </PrivateRoute>
+                    <PrivateRoute path="/relatoriosTaubate" tela={this.state.tela} menu={MenuTaubate}>
+                        <RelatoriosTaubate/>
                     </PrivateRoute>
                     <Route path="/">
                         <Login />

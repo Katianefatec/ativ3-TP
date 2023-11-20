@@ -22,7 +22,7 @@ type State = {
     filtro: string; // Novo estado para o filtro
 }
 
-export default class ListaClientesTaubate extends Component<{}, State> {
+export default class RelatoriosTaubate extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {
@@ -130,58 +130,7 @@ export default class ListaClientesTaubate extends Component<{}, State> {
             cliente.cpf.includes(filtro)
         );
         return (
-          <>
-                <div className={styles['container-lista']}>
-                    <div className={styles['wrap-lista']}>
-                        <div className={styles['titulo-tabela']}>
-                            <h1>Lista de Clientes</h1>
-                        </div>
-                    <div className={styles['titulo-tabela2']}>
-                        <input type="text"  value={filtro} onChange={this.handleFiltroChange} placeholder="Buscar por nome ou CPF" /> 
-                        <Link to="/cadastroSJC">
-                            <button>Cadastrar </button>
-                        </Link>
-                    </div>                     
-                    <div className={styles['table-responsive']}>
-                    <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th colSpan={2}>Nome</th>
-                        <th colSpan={2}>Telefone</th>
-                        <th colSpan={1}>Consumo</th>
-                        <th colSpan={1}>Alterar</th>
-                        <th colSpan={1}>Excluir</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {clientesFiltrados.map((cliente, index) => ( 
-                        <tr key={index} onClick={() => this.handleRowClick(cliente)}>
-                          <td colSpan={2}>{cliente.nome}</td>
-                          <td colSpan={2}>{cliente.telefones.join(', ')}</td>
-                          <td colSpan={1}><button>Adicionar</button></td>
-                          <td colSpan={1}><button>Editar</button></td>
-                          <td colSpan={1}><button>Excluir</button></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-              </div>
-                    <Modal show={modalShow} onHide={() => this.setState({ modalShow: false })}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>{clienteModal?.nome}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p>Nome Social: {clienteModal?.nomeSocial}</p>
-                            <p>CPF: {clienteModal?.cpf}</p>
-                            <p>RGs: {clienteModal?.rgs.join(', ')}</p>
-                            <p>Gênero: {clienteModal?.genero}</p>
-                            <p>Data de Cadastro: {clienteModal?.dataCadastro ? new Date(clienteModal.dataCadastro).toLocaleDateString('pt-BR') : ''}</p>
-                            <p>Telefones: {clienteModal?.telefones.join(', ')}</p>
-                        </Modal.Body>
-                    </Modal>
-                </div>                
-            </>
+            <div className={styles['container-lista']}> Relatorios </div>
         );
     }
 }

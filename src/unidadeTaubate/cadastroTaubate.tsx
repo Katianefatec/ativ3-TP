@@ -14,7 +14,7 @@ type State = {
     valorServico: number;
 }
 
-export default class CadastroSJC extends Component<{}, State> {
+export default class CadastroTaubate extends Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {

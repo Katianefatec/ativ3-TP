@@ -47,11 +47,11 @@ class MenuSJC extends React.Component<{}, State> {
                   <img src={wbimg} alt="logo"/> 
                 </div>
                 <div className="list-unstyled components">
-                  <Nav.Link as={Link} to="cadastro"> Cadastro   </Nav.Link> 
+                  <Nav.Link as={Link} to="cadastroSJC"> Cadastro   </Nav.Link> 
                   <Nav.Link as={Link} to="clienteSJC">Clientes </Nav.Link>
                   <Nav.Link as={Link} to="produtoSJC"> Produtos </Nav.Link>
                   <Nav.Link as={Link} to="servicoSJC"> Serviços </Nav.Link>
-                  <Nav.Link as={Link} to="relatorios"> Relatórios </Nav.Link>
+                  <Nav.Link as={Link} to="relatoriosSJC"> Relatórios </Nav.Link>
                 </div>
               </nav>
             </div>

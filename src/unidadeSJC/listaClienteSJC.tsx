@@ -148,7 +148,7 @@ export default class ListaClientesSJC extends Component<{}, State> {
                       <tr>
                         <th colSpan={2}>Nome</th>
                         <th colSpan={2}>Telefone</th>
-                        <th colSpan={1}>Gênero</th>
+                        <th colSpan={1}>Consumo</th>
                         <th colSpan={1}>Alterar</th>
                         <th colSpan={1}>Excluir</th>
                       </tr>
@@ -158,7 +158,7 @@ export default class ListaClientesSJC extends Component<{}, State> {
                         <tr key={index} onClick={() => this.handleRowClick(cliente)}>
                           <td colSpan={2}>{cliente.nome}</td>
                           <td colSpan={2}>{cliente.telefones.join(', ')}</td>
-                          <td colSpan={1}>{cliente.genero}</td>
+                          <td colSpan={1}><button>Adicionar</button></td>
                           <td colSpan={1}><button>Editar</button></td>
                           <td colSpan={1}><button>Excluir</button></td>
                         </tr>
