@@ -112,8 +112,10 @@ export default class ListaClientesSJC extends Component<{}, State> {
             
         ];
     
+        clientesFicticios.sort((a, b) => a.nome.localeCompare(b.nome));
+
         this.setState({ clientes: clientesFicticios });
-    }
+}
 
     handleRowClick = (cliente: Cliente) => {
         this.setState({
@@ -141,11 +143,10 @@ export default class ListaClientesSJC extends Component<{}, State> {
     }
 
     handleExcluirClick = (cliente: Cliente) => {
-        this.setState({
-            modalExcluirShow: true,
-            clienteModal: cliente
-        });
-    } 
+        this.setState(state => ({
+            clientes: state.clientes.filter(c => c !== cliente)
+        }));
+    };
 
     handleProdutoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ produtoSelecionado: event.target.value });
