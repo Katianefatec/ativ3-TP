@@ -24,22 +24,23 @@ class MenuSJC extends React.Component<{}, State> {
     return (
       <>
        <div className="MenuSup">
-          <div id="MenuSupItem">          
-          </div>
-          <div className="item-menu-sup">
-            <h5>Unidade SJC</h5>
-            <Nav.Link as={Link} to="/">
-              <img src={sair} alt="Sair" className="logout-icon" />
-            </Nav.Link>
-          </div>
-        </div>
-        
-        <div className="sidebar-fixed">
         <div className="hamburger-menu" onClick={this.toggleMenu}>
             <div></div>
             <div></div>
             <div></div>
           </div>
+            <div id="MenuSupItem">          
+            </div>
+            <div className="item-menu-sup">
+              <h5>Unidade SJC</h5>
+              <Nav.Link as={Link} to="/">
+                <img src={sair} alt="Sair" className="logout-icon" />
+              </Nav.Link>
+            </div>
+        </div>
+        
+        <div className="sidebar-fixed">
+        
           <div className="container-fluid">
             <div className="row">
             <nav id="sidebar" className={this.state.isMenuOpen ? 'open' : ''}>

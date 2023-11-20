@@ -24,6 +24,14 @@ class MenuTaubate extends React.Component<{}, State> {
     return (
       <>
        <div className="MenuSup">
+       <div className="hamburger-menu" onClick={this.toggleMenu}>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+            <div id="MenuSupItem">          
+            </div>
+            
           <div id="MenuSupItem">          
           </div>
           <div className="item-menu-sup">
@@ -35,11 +43,6 @@ class MenuTaubate extends React.Component<{}, State> {
         </div>
         
         <div className="sidebar-fixed">
-        <div className="hamburger-menu" onClick={this.toggleMenu}>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
           <div className="container-fluid">
             <div className="row">
             <nav id="sidebar" className={this.state.isMenuOpen ? 'open' : ''}>
