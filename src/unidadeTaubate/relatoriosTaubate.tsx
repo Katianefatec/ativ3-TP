@@ -1,136 +1,225 @@
-import React, { Component } from 'react';
-import { Table, Modal } from 'react-bootstrap';
+import React from 'react';
+import { Table, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from '../estilos/styles.module.css';
-import { Link } from 'react-router-dom';
 
+type Relatorio = {
+    top10ClientesMaisConsumo: Cliente[];
+    clientesPorGenero: Cliente[];
+    servicosMaisConsumidos: Servico[];
+    servicosMaisConsumidosPorGenero: Servico[];
+    top10ClientesMenosConsumo: Cliente[];
+    top5ClientesMaisValor: Cliente[];
+}
 
 type Cliente = {
     nome: string;
-    nomeSocial: string;
-    cpf: string;
-    rgs: string[];
     genero: string;
-    dataCadastro: string;
-    telefones: string[];
+    quantidadeConsumida: number;
+    valorConsumido: number;
+}
+
+type Servico = {
+    nome: string;
+    quantidadeConsumida: number;
+    generoMaisConsumidor: string;
 }
 
 type State = {
-    clientes: Cliente[];
-    modalShow: boolean;
-    clienteModal: Cliente | null;
-    filtro: string; // Novo estado para o filtro
+    relatorios: Relatorio;
+    relatorioSelecionado: string;
 }
 
-export default class RelatoriosTaubate extends Component<{}, State> {
+export default class RelatoriosTaubate extends React.Component<{}, State> {
     constructor(props: {} | Readonly<{}>) {
         super(props);
         this.state = {
-            clientes: [],
-            modalShow: false,
-            clienteModal: null,
-            filtro: '' 
+            relatorios: {
+                top10ClientesMaisConsumo: [
+                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 100, valorConsumido: 1000 },
+                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 90, valorConsumido: 900 },
+                    // ... outros clientes
+                ],
+                clientesPorGenero: [
+                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 0 },
+                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 0 },
+                    // ... outros clientes
+                ],
+                servicosMaisConsumidos: [
+                    { nome: 'Serviço 1', quantidadeConsumida: 100, generoMaisConsumidor: 'Masculino' },
+                    { nome: 'Serviço 2', quantidadeConsumida: 90, generoMaisConsumidor: 'Feminino' },
+                    // ... outros serviços
+                ],
+                servicosMaisConsumidosPorGenero: [
+                    { nome: 'Serviço 1', quantidadeConsumida: 0, generoMaisConsumidor: 'Masculino' },
+                    { nome: 'Serviço 2', quantidadeConsumida: 0, generoMaisConsumidor: 'Feminino' },
+                    // ... outros serviços
+                ],
+                top10ClientesMenosConsumo: [
+                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 10, valorConsumido: 100 },
+                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 20, valorConsumido: 200 },
+                    // ... outros clientes
+                ],
+                top5ClientesMaisValor: [
+                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 1000 },
+                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 900 },
+                    // ... outros clientes
+                ],
+            },
+            relatorioSelecionado: '',
         };
     }
 
-    componentDidMount() {
-        
-        const clientesFicticios: Cliente[] = [
-            {
-                nome: 'João',
-                nomeSocial: 'Jonh',
-                cpf: '22222222222',
-                rgs: ['222222222'],
-                genero: 'Masculino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(11) 111111111']
-            },
-                        
-            {
-                nome: 'Fabio',
-                nomeSocial: 'Fab',
-                cpf: '34343434343',
-                rgs: ['343434343'],
-                genero: 'Masculino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(31) 313131313']
-            },
-
-            {
-                nome: 'Ana',
-                nomeSocial: 'Ana',
-                cpf: '44444444444',
-                rgs: ['444444444'],
-                genero: 'Feminino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(44) 444444444']
-            },
-
-            {
-                nome: 'Joaquim',
-                nomeSocial: 'Joaq',
-                cpf: '55555555555',
-                rgs: ['555555555'],
-                genero: 'Masculino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(55) 555555555']
-            },
-
-            {
-                nome: 'Pedro',
-                nomeSocial: 'Ped',
-                cpf: '66666666666',
-                rgs: ['666666666'],
-                genero: 'Masculino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(66) 666666666']
-            },
-            
-            {
-                nome: 'Maria',
-                nomeSocial: 'Mary',
-                cpf: '33333333333',
-                rgs: ['333333333'],
-                genero: 'Feminino',
-                dataCadastro: new Date().toISOString(),
-                telefones: ['(22) 222222222']
-            },
-            
-                    
-
-            
-        ];
+    handleRelatorioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ relatorioSelecionado: event.target.value });
+    };
+    renderRelatorio = () => {
+        const { relatorios, relatorioSelecionado } = this.state;
     
-        this.setState({ clientes: clientesFicticios });
-    }
+        switch (relatorioSelecionado) {
+            case 'top10ClientesMaisConsumo':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Quantidade Consumida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.top10ClientesMaisConsumo.map((cliente, index) => (
+                                <tr key={index}>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.quantidadeConsumida}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
+            case 'clientesPorGenero':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Gênero</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.clientesPorGenero.map((cliente, index) => (
+                                <tr key={index}>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.genero}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
+            
+            case 'servicosMaisConsumidos':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Quantidade Consumida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.servicosMaisConsumidos.map((servico, index) => (
+                                <tr key={index}>
+                                    <td>{servico.nome}</td>
+                                    <td>{servico.quantidadeConsumida}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
+            
+            case 'servicosMaisConsumidosPorGenero':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Gênero Mais Consumidor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.servicosMaisConsumidosPorGenero.map((servico, index) => (
+                                <tr key={index}>
+                                    <td>{servico.nome}</td>
+                                    <td>{servico.generoMaisConsumidor}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
 
-    handleRowClick = (cliente: Cliente) => {
-        this.setState({
-            modalShow: true,
-            clienteModal: cliente
-        });
-    }
+            case 'top10ClientesMenosConsumo':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Quantidade Consumida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.top10ClientesMenosConsumo.map((cliente, index) => (
+                                <tr key={index}>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.quantidadeConsumida}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
 
-    handleFiltroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ filtro: event.target.value });
-    }
-
-    // componentDidMount() {
-    //     // Substitua 'http://localhost:3000/clientes' pela URL do seu servidor
-    //     fetch('http://localhost:3000/clientes')
-    //         .then(response => response.json())
-    //         .then(clientes => this.setState({ clientes }));
-    // }
+            case 'top5ClientesMaisValor':
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Valor Consumido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {relatorios.top5ClientesMaisValor.map((cliente, index) => (
+                                <tr key={index}>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.valorConsumido}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                );
+            default:
+                return null;
+            }
+            }
 
     render() {
-        const { clientes, modalShow, clienteModal, filtro } = this.state;
-
-        const clientesFiltrados = clientes.filter(cliente =>
-            cliente.nome.toLowerCase().includes(filtro.toLowerCase()) ||
-            cliente.cpf.includes(filtro)
-        );
         return (
-            <div className={styles['container-lista']}> Relatorios </div>
+
+            <div className={styles['container-lista']}>
+                <div className={styles['wrap-cadastro']}>
+                    <h1>Relatórios</h1>
+
+                    <Form.Control as="select" onChange={(event: any) => this.handleRelatorioChange(event)}>
+                        <option value="">Selecione um relatório</option>
+                        <option value="top10ClientesMaisConsumo">10 clientes que mais consumiram produtos ou serviços</option>
+                        <option value="clientesPorGenero">Clientes por gênero</option>
+                        <option value="servicosMaisConsumidos">Serviços ou produtos mais consumidos</option>
+                        <option value="servicosMaisConsumidosPorGenero">Serviços ou produtos mais consumidos por gênero</option>
+                        <option value="top10ClientesMenosConsumo">10 clientes que menos consumiram produtos ou serviços</option>
+                        <option value="top5ClientesMaisValor">5 clientes que mais consumiram em valor</option>
+                    </Form.Control>
+
+                    {this.renderRelatorio()}
+                </div>
+            </div>
         );
     }
 }
