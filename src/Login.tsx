@@ -41,6 +41,11 @@ class Login extends Component<LoginProps, State> {
 
     handleLogin = (event: React.FormEvent) => {
         event.preventDefault();
+        const defaultPassword = '1234'; // Defina a senha padrão aqui
+        if (this.state.password !== defaultPassword) {
+            this.setState({ error: 'Senha incorreta' });
+            return;
+        }
         if (this.state.email === 'unidadesjc@gmail.com') {
             this.props.history.push('/clienteSJC');
             this.setState({ error: '' });
