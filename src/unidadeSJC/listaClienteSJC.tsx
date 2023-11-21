@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../estilos/styles.module.css';
 import { Link } from 'react-router-dom';
-
 
 type Cliente = {
     nome: string;
@@ -13,42 +12,22 @@ type Cliente = {
     genero: string;
     dataCadastro: string;
     telefones: string[];
-}
+};
 
-type State = {
-    clientes: Cliente[];
-    modalShow: boolean;
-    clienteModal: Cliente | null;
-    filtro: string; 
-    modalConsumoShow: boolean;
-    modalAlterarShow: boolean;
-    modalExcluirShow: boolean;
-    produtoSelecionado: string; 
-    servicoSelecionado: string; 
-}
+function ListaClientesSJC () {
+    const [clientes, setClientes] = useState<Cliente[]>([]);
+    const [modalShow, setModalShow] = useState(false);
+    const [clienteModal, setClienteModal] = useState<Cliente | null>(null);
+    const [filtro, setFiltro] = useState('');
+    const [modalConsumoShow, setModalConsumoShow] = useState(false);
+    const [modalAlterarShow, setModalAlterarShow] = useState(false);
+    const [modalExcluirShow, setModalExcluirShow] = useState(false);
+    const [produtoSelecionado, setProdutoSelecionado] = useState('');
+    const [servicoSelecionado, setServicoSelecionado] = useState('');
 
-export default class ListaClientesSJC extends Component<{}, State> {
-    constructor(props: {} | Readonly<{}>) {
-        super(props);
-        this.state = {
-            clientes: [],
-            modalShow: false,
-            clienteModal: null,
-            filtro: '' ,
-            modalConsumoShow: false,
-            modalAlterarShow: false,
-            modalExcluirShow: false, 
-            produtoSelecionado: '',
-            servicoSelecionado: '',
-
-        };
-    }
-
-    componentDidMount() {
-        
-        const clientesFicticios: Cliente[] = [
-            {
-                nome: 'João',
+    useEffect(() => {
+        const clientesFicticios = [
+            { nome: 'João',
                 nomeSocial: 'Jonh',
                 cpf: '22222222222',
                 rgs: ['222222222'],
@@ -105,127 +84,107 @@ export default class ListaClientesSJC extends Component<{}, State> {
                 genero: 'Feminino',
                 dataCadastro: new Date().toISOString(),
                 telefones: ['(22) 222222222']
-            },
-            
-                    
-
-            
+            },                      
+           
         ];
-    
         clientesFicticios.sort((a, b) => a.nome.localeCompare(b.nome));
-
-        this.setState({ clientes: clientesFicticios });
-}
-
-    handleRowClick = (cliente: Cliente) => {
-        this.setState({
-            modalShow: true,
-            clienteModal: cliente
-        });
+        setClientes(clientesFicticios);
+    }, []);
+    const handleRowClick = (cliente: Cliente) => {
+        setModalShow(true);
+        setClienteModal(cliente);
     }
 
-    handleFiltroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ filtro: event.target.value });
+    const handleFiltroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFiltro(event.target.value);
+    };
+
+    const handleConsumoClick = (cliente: Cliente) => {
+        setClienteModal(cliente);
+        setModalConsumoShow(true);
+    };
+
+    const handleAlterarClick = (cliente:Cliente) => {
+        setModalAlterarShow(true);
+        setClienteModal(cliente);
     }
 
-    handleConsumoClick = (cliente: Cliente) => {
-        this.setState({ 
-            clienteModal: cliente,
-            modalConsumoShow: true,
-        });
-    };
-    
-    handleAlterarClick = (cliente: Cliente) => {
-        this.setState({
-            modalAlterarShow: true,
-            clienteModal: cliente
-        });
-    }
-
-    handleExcluirClick = (cliente: Cliente) => {
-        this.setState(state => ({
-            clientes: state.clientes.filter(c => c !== cliente)
-        }));
+    const handleExcluirClick = (cliente:Cliente) => {
+        setClientes(clientes.filter(c => c !== cliente));
     };
 
-    handleProdutoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        this.setState({ produtoSelecionado: event.target.value });
-    };
-    
-    handleServicoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        this.setState({ servicoSelecionado: event.target.value });
+    const handleProdutoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setProdutoSelecionado(event.target.value);
     };
 
-    handleNomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
-            this.setState({ clienteModal: { ...this.state.clienteModal, nome: event.target.value } });
+    const handleServicoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setServicoSelecionado(event.target.value);
+    };
+
+    const handleNomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (clienteModal) {
+            setClienteModal({ ...clienteModal, nome: event.target.value });
+        }
+    };
+
+    const handleNomeSocialChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (clienteModal) {
+            setClienteModal({ ...clienteModal, nomeSocial: event.target.value });
+        }
+    };
+
+    const handleCPFChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (clienteModal) {
+            setClienteModal({ ...clienteModal, cpf: event.target.value });
         }
     };
     
-    handleNomeSocialChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
-            this.setState({ clienteModal: { ...this.state.clienteModal, nomeSocial: event.target.value } });
-        }
-    };
-    
-    handleCPFChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
-            this.setState({ clienteModal: { ...this.state.clienteModal, cpf: event.target.value } });
-        }
-    };
-    
-    handleRgsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
+    const handleRgsChange = (event: React.ChangeEvent<HTMLInputElement> ) => {
+        if (clienteModal) {
             const rgs = event.target.value.split(', ').map(rg => rg.trim());
-            this.setState({ clienteModal: { ...this.state.clienteModal, rgs: rgs } });
+            setClienteModal({ ...clienteModal, rgs: rgs });
         }
     };
-    
-    handleGeneroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
-            this.setState({ clienteModal: { ...this.state.clienteModal, genero: event.target.value } });
+
+    const handleGeneroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (clienteModal) {
+            setClienteModal({ ...clienteModal, genero: event.target.value });
         }
     };
-    
-    handleTelefonesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.state.clienteModal) {
+
+    const handleTelefonesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (clienteModal) {
             const telefones = event.target.value.split(', ').map(telefone => telefone.trim());
-            this.setState({ clienteModal: { ...this.state.clienteModal, telefones: telefones } });
+            setClienteModal({ ...clienteModal, telefones: telefones });
         }
     };
 
-    adicionarConsumo = () => {
-        
+    const adicionarConsumo = () => {
         console.log("Adicionar consumo");
-        this.setState({ modalConsumoShow: false });
-    }
-    
-    alterarCliente = () => {
-        
-        console.log("Alterar cliente");
-        this.setState({ modalAlterarShow: false });
-    }
-    
-    excluirCliente = () => {
-        
-        console.log("Excluir cliente");
-        this.setState({ modalExcluirShow: false });
+        setModalConsumoShow(false);
     }
 
+    const alterarCliente = () => {
+        console.log("Alterar cliente");
+        setModalAlterarShow(false);
+    }
+
+    const excluirCliente = () => {
+        console.log("Excluir cliente");
+        setModalExcluirShow(false);
+    }
     // componentDidMount() {
     //     // Substitua 'http://localhost:3000/clientes' pela URL do seu servidor
     //     fetch('http://localhost:3000/clientes')
     //         .then(response => response.json())
-    //         .then(clientes => this.setState({ clientes }));
+    //         .then(clientes => setState({ clientes }));
     // }
 
-    render() {
-        const { modalShow, modalExcluirShow, modalConsumoShow, modalAlterarShow } = this.state;
+    const clientesFiltrados = clientes.filter(cliente =>
+        cliente.nome.toLowerCase().includes(filtro.toLowerCase()) ||
+        cliente.cpf.includes(filtro)
+    );
 
-        const clientesFiltrados = this.state.clientes.filter(cliente =>
-            cliente.nome.toLowerCase().includes(this.state.filtro.toLowerCase()) ||
-            cliente.cpf.includes(this.state.filtro)
-        );
         return (
           <>
                 <div className={styles['container-lista']}>
@@ -234,7 +193,7 @@ export default class ListaClientesSJC extends Component<{}, State> {
                             <h1>Lista de Clientes</h1>
                         </div>
                     <div className={styles['titulo-tabela2']}>
-                    <input type="text" value={this.state.filtro} onChange={this.handleFiltroChange} placeholder="Buscar por nome ou CPF" />
+                    <input type="text" value={filtro} onChange={handleFiltroChange} placeholder="Buscar por nome ou CPF" />
                         <Link to="/cadastroSJC">
                             <button>Cadastrar </button>
                         </Link>
@@ -257,10 +216,10 @@ export default class ListaClientesSJC extends Component<{}, State> {
                         <tr key={index}>
                             <td colSpan={2}>{cliente.nome}</td>
                             <td colSpan={2}>{cliente.telefones.join(', ')}</td>
-                            <td colSpan={1}><button onClick={() => this.handleRowClick(cliente)}>Detalhes</button></td>
-                            <td colSpan={1}><button onClick={() => this.handleConsumoClick(cliente)}>Adicionar</button></td>
-                            <td colSpan={1}><button onClick={() => this.handleAlterarClick(cliente)}>Editar</button></td>
-                            <td colSpan={1}><button onClick={() => this.handleExcluirClick(cliente)}>Excluir</button></td>
+                            <td colSpan={1}><button onClick={() => handleRowClick(cliente)}>Detalhes</button></td>
+                            <td colSpan={1}><button onClick={() => handleConsumoClick(cliente)}>Adicionar</button></td>
+                            <td colSpan={1}><button onClick={() => handleAlterarClick(cliente)}>Editar</button></td>
+                            <td colSpan={1}><button onClick={() => handleExcluirClick(cliente)}>Excluir</button></td>
                             
                         </tr>
                     ))}
@@ -269,21 +228,20 @@ export default class ListaClientesSJC extends Component<{}, State> {
                 </div>
               </div>
               <div>
-                <Modal show={modalShow} onHide={() => this.setState({ modalShow: false })}>
+              <Modal show={modalShow} onHide={() => setModalShow(false)}>
                     <Modal.Header closeButton>
-                    <Modal.Title>{this.state.clienteModal?.nome}</Modal.Title>
+                    <Modal.Title>{clienteModal?.nome}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <Modal.Title>{this.state.clienteModal?.nome}</Modal.Title>
-                        <p>Nome Social: {this.state.clienteModal?.nomeSocial}</p>
-                        <p>CPF: {this.state.clienteModal?.cpf}</p>
-                        <p>RGs: {this.state.clienteModal?.rgs.join(', ')}</p>
-                        <p>Gênero: {this.state.clienteModal?.genero}</p>
-                        <p>Data de Cadastro: {this.state.clienteModal?.dataCadastro ? new Date(this.state.clienteModal.dataCadastro).toLocaleDateString('pt-BR') : ''}</p>
-                        <p>Telefones: {this.state.clienteModal?.telefones.join(', ')}</p>
+                        <p>Nome Social: {clienteModal?.nomeSocial}</p>
+                        <p>CPF: {clienteModal?.cpf}</p>
+                        <p>RGs: {clienteModal?.rgs.join(', ')}</p>
+                        <p>Gênero: {clienteModal?.genero}</p>
+                        <p>Data de Cadastro: {clienteModal?.dataCadastro ? new Date(clienteModal.dataCadastro).toLocaleDateString('pt-BR') : ''}</p>
+                        <p>Telefones: {clienteModal?.telefones.join(', ')}</p>
                     </Modal.Body>
                 </Modal>
-                <Modal show={this.state.modalConsumoShow} onHide={() => this.setState({ modalConsumoShow: false })}>
+                <Modal show={modalConsumoShow} onHide={() => setModalConsumoShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Adicionar Consumo</Modal.Title>
                     </Modal.Header>
@@ -291,38 +249,38 @@ export default class ListaClientesSJC extends Component<{}, State> {
                         <form>
                             <label>
                                 Produto:
-                                <select value={this.state.produtoSelecionado} onChange={this.handleProdutoChange}>
+                                <select value={produtoSelecionado} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleProdutoChange(event)}>
                                     <option value="">Selecione um produto</option>
                                     <option value="produto1">Produto 1</option>
                                     <option value="produto2">Produto 2</option>
                                     <option value="produto3">Produto 3</option>
-                                    {/* Adicione mais opções conforme necessário */}
+                                    
                                 </select>
                             </label>
                             <br />
                             <br />
                             <label>
                                 Serviço:
-                                <select value={this.state.servicoSelecionado} onChange={this.handleServicoChange}>
+                                <select value={servicoSelecionado} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleServicoChange(event)}>
                                     <option value="">Selecione um serviço</option>
                                     <option value="servico1">Serviço 1</option>
                                     <option value="servico2">Serviço 2</option>
                                     <option value="servico3">Serviço 3</option>
-                                    {/* Adicione mais opções conforme necessário */}
+                                    
                                 </select>
                             </label>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.setState({ modalConsumoShow: false })}>
+                    <Button variant="secondary" onClick={() => setModalConsumoShow(false)}>
                             Fechar
                         </Button>
-                        <Button variant="primary" onClick={this.adicionarConsumo}>
+                        <Button variant="primary" onClick={adicionarConsumo}>
                             Salvar
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.modalAlterarShow} onHide={() => this.setState({ modalAlterarShow: false })}>
+                <Modal show={modalAlterarShow} onHide={() => setModalAlterarShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Alterar Cliente</Modal.Title>
                     </Modal.Header>
@@ -330,56 +288,56 @@ export default class ListaClientesSJC extends Component<{}, State> {
                         <form>
                             <label>
                                 Nome:
-                                <input type="text" value={this.state.clienteModal?.nome} onChange={this.handleNomeChange} />
+                                <input type="text" value={clienteModal?.nome} onChange={handleNomeChange} />
                             </label>
                             <br />
                             <label>
                                 Nome Social:
-                                <input type="text" value={this.state.clienteModal?.nomeSocial} onChange={this.handleNomeSocialChange} />
+                                <input type="text" value={clienteModal?.nomeSocial} onChange={handleNomeSocialChange} />
                             </label>
                             <br />
                             <label>
                                 CPF:
-                                <input type="text" value={this.state.clienteModal?.cpf} onChange={this.handleCPFChange} />
+                                <input type="text" value={clienteModal?.cpf} onChange={handleCPFChange} />
                             </label>
                             <br />
                             <label>
                                 RGs:
-                                <input type="text" value={this.state.clienteModal?.rgs.join(', ')} onChange={this.handleRgsChange} />
+                                <input type="text" value={clienteModal?.rgs.join(', ')} onChange={handleRgsChange} />
                             </label>
                             <br />
                             <label>
                                 Gênero:
-                                <input type="text" value={this.state.clienteModal?.genero} onChange={this.handleGeneroChange} />
+                                <input type="text" value={clienteModal?.genero} onChange={handleGeneroChange} />
                             </label>
                             <br />
                             <label>
                                 Telefones:
-                                <input type="text" value={this.state.clienteModal?.telefones.join(', ')} onChange={this.handleTelefonesChange} />
+                                <input type="text" value={clienteModal?.telefones.join(', ')} onChange={handleTelefonesChange} />
                             </label>
                             <br />
-                            {/* Adicione mais campos conforme necessário */}
+                            
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.setState({ modalAlterarShow: false })}>
+                        <Button variant="secondary" onClick={() => setModalAlterarShow(false)}>
                             Cancelar
                         </Button>
-                        <Button variant="primary" onClick={this.alterarCliente}>Salvar</Button>
+                        <Button variant="primary" onClick={alterarCliente}>Salvar</Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={modalExcluirShow} onHide={() => this.setState({ modalExcluirShow: false })}>
+                <Modal show={modalExcluirShow} onHide={() => setModalExcluirShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Excluir Cliente</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {/* Conteúdo do modal para excluir cliente */}
+                        
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.setState({ modalExcluirShow: false })}>
+                        <Button variant="secondary" onClick={() => setModalExcluirShow(false)}>
                             Cancelar
                         </Button>
-                        <Button variant="danger" onClick={this.excluirCliente}>Excluir</Button>
+                        <Button variant="danger" onClick={excluirCliente}>Excluir</Button>
                     </Modal.Footer>
                 </Modal>
                 </div>
@@ -387,4 +345,5 @@ export default class ListaClientesSJC extends Component<{}, State> {
             </>
         );
     }
-}
+
+export default ListaClientesSJC;

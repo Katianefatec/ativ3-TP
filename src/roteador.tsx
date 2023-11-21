@@ -25,8 +25,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ menu: MenuComponent, ...pro
         <Route {...props} />
     </>
 );
-const Roteador: React.FC = () => {
-    const [tela, setTela] = useState('Login');
+function Roteador () {
+    const [tela] = useState('Login');
 
        
     return (

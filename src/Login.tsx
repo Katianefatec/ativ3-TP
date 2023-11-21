@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import wbimg from './assets/logo.png';
 import styles from './estilos/styles.module.css';
 
-const Login: React.FC = () => {
+function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | undefined>();
