@@ -1,102 +1,74 @@
-import React, { Component, ChangeEvent } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import wbimg from './assets/logo.png';
 import styles from './estilos/styles.module.css';
 
-interface State {
-    email: string;
-    password: string;
-    error?: string;
-    tela?: string;
-}
+const Login: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | undefined>();
+    const history = useHistory();
 
-interface LoginProps extends RouteComponentProps {
-    
-}
-
-class Login extends Component<LoginProps, State> {
-    constructor(props: LoginProps) {
-        super(props);
-        this.state = {
-            email: '',
-            password: ''
-        };
+    const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
     }
 
-    setEmail = (email: string) => {
-        this.setState({ email });
+    const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
     }
 
-    setPassword = (password: string) => {
-        this.setState({ password });
-    }
-
-    handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setEmail(event.target.value);
-    }
-
-    handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setPassword(event.target.value);
-    }
-
-    handleLogin = (event: React.FormEvent) => {
+    const handleLogin = (event: FormEvent) => {
         event.preventDefault();
         const defaultPassword = '1234'; // Defina a senha padrão aqui
-        if (this.state.password !== defaultPassword) {
-            this.setState({ error: 'Senha incorreta' });
+        if (password !== defaultPassword) {
+            setError('Senha incorreta');
             return;
         }
-        if (this.state.email === 'unidadesjc@gmail.com') {
-            this.props.history.push('/clienteSJC');
-            this.setState({ error: '' });
-        } else if (this.state.email === 'unidadetaubate@gmail.com') {
-            this.props.history.push('/clienteTaubate');
-            this.setState({ error: '' });
+        if (email === 'unidadesjc@gmail.com') {
+            history.push('/clienteSJC');
+            setError('');
+        } else if (email === 'unidadetaubate@gmail.com') {
+            history.push('/clienteTaubate');
+            setError('');
         } else {
-            this.setState({ error: 'Email não cadastrado' });
+            setError('Email não cadastrado');
         }
     }
 
-    render() {
-        return (
-            <div className={styles.container}>
-                <div className={styles['container-login']}>
-                    <div className={styles['wrap-login']}>
-                        <form className={styles['login-form']} onSubmit={this.handleLogin}>
-                            
+    return (
+        <div className={styles.container}>
+            <div className={styles['container-login']}>
+                <div className={styles['wrap-login']}>
+                    <form className={styles['login-form']} onSubmit={handleLogin}>
                         <span className={styles['login-form-title']}>
-                                <img src={wbimg} alt="logo"/> 
+                            <img src={wbimg} alt="logo"/> 
                         </span>                                                         
                         <div className={styles['wrap-input']}>
-                                <input className={this.state.email !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
-                                type="email" 
-                                value={this.state.email}
-                                onChange={this.handleEmailChange}
-                                required/>
-                                <span className={styles['focus-input']} data-placeholder="Email"></span>
-                            </div>
-                            
-                            <div className={styles['wrap-input']}>
-                                <input className={this.state.password !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
-                                type="password" 
-                                value={this.state.password}
-                                onChange={this.handlePasswordChange}
-                                required/>
-                                <span className={styles['focus-input']} data-placeholder="Password"></span>                                
-                            </div>   
-                            {this.state.error && <div className={styles.error}>{this.state.error}</div>} {/* Adicione a mensagem de erro aqui */}
-                            <div className={styles['container-login-form-btn']}>
-                                <button className={styles['login-form-btn']} type="submit">Entrar</button>
-                            </div>
-
-                            
-                            
-                        </form>                         
-                    </div>
+                            <input className={email !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
+                            type="email" 
+                            value={email}
+                            onChange={handleEmailChange}
+                            required/>
+                            <span className={styles['focus-input']} data-placeholder="Email"></span>
+                        </div>
+                        
+                        <div className={styles['wrap-input']}>
+                            <input className={password !== "" ? styles['has-val'] + ' ' + styles.input : styles.input} 
+                            type="password" 
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required/>
+                            <span className={styles['focus-input']} data-placeholder="Password"></span>                                
+                        </div>   
+                        {error && <div className={styles.error}>{error}</div>} {/* Adicione a mensagem de erro aqui */}
+                        <div className={styles['container-login-form-btn']}>
+                            <button className={styles['login-form-btn']} type="submit">Entrar</button>
+                        </div>
+                    </form>                         
                 </div>
-            </div>                
-        );
-    }
+            </div>
+        </div>                
+    );
 }
 
-export default withRouter(Login);
+export default Login;

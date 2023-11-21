@@ -1,107 +1,72 @@
-import { Component } from "react";
-import { Route, RouteProps, BrowserRouter as Router, Switch } from "react-router-dom";
-import Login from "./Login";
-import ListaClientesSJC from "./unidadeSJC/listaClienteSJC";
-import ListaProdutoSJC from "./unidadeSJC/listaProdutoSJC";
-import ListaServicoSJC from "./unidadeSJC/listaServicoSJC";
-import MenuSJC from "./unidadeSJC/MenuSJC";
-import ListaProdutoTaubate from "./unidadeTaubate/listaProdutoTaubate";
-import ListaClientesTaubate from "./unidadeTaubate/listaClienteTaubate";
-import ListaServicoTaubate from "./unidadeTaubate/listaServicoTaubate";
-import MenuTaubate from "./unidadeTaubate/MenuTaubate";
-import CadastroSJC from "./unidadeSJC/cadastroClienteSJC";
-
-import Relatorios from "./unidadeSJC/relatoriosSJC";
-import RelatoriosTaubate from "./unidadeTaubate/relatoriosTaubate";
-import CadastroTaubate from "./unidadeTaubate/cadastroTaubate";
-
-type state = {
-    tela: string
-}
+import React, { useState } from 'react';
+import { Route, RouteProps, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Login from './Login';
+import ListaClientesSJC from './unidadeSJC/listaClienteSJC';
+import ListaProdutoSJC from './unidadeSJC/listaProdutoSJC';
+import ListaServicoSJC from './unidadeSJC/listaServicoSJC';
+import MenuSJC from './unidadeSJC/MenuSJC';
+import ListaProdutoTaubate from './unidadeTaubate/listaProdutoTaubate';
+import ListaClientesTaubate from './unidadeTaubate/listaClienteTaubate';
+import ListaServicoTaubate from './unidadeTaubate/listaServicoTaubate';
+import MenuTaubate from './unidadeTaubate/MenuTaubate';
+import CadastroSJC from './unidadeSJC/cadastroClienteSJC';
+import Relatorios from './unidadeSJC/relatoriosSJC';
+import RelatoriosTaubate from './unidadeTaubate/relatoriosTaubate';
+import CadastroTaubate from './unidadeTaubate/cadastroTaubate';
 
 interface PrivateRouteProps extends RouteProps {
     tela: string;
     menu: React.ComponentType; 
 }
 
-class PrivateRoute extends Route<PrivateRouteProps> {
-    render() {
-        const MenuComponent = this.props.menu;
-        return (
-            <>
-                <MenuComponent />
-                {super.render()}
-            </>
-        );
-    }
-}
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ menu: MenuComponent, ...props }) => (
+    <>
+        <MenuComponent />
+        <Route {...props} />
+    </>
+);
+const Roteador: React.FC = () => {
+    const [tela, setTela] = useState('Login');
 
-export default class Roteador extends Component<{}, state> {
-    constructor(props: {} | Readonly<{}>) {
-        super(props)
-        this.state = {
-            tela: 'Login' 
-        }
-        this.selecionarView = this.selecionarView.bind(this)
-        this.handleLogin = this.handleLogin.bind(this)
-    }
+       
+    return (
+        <Router>
+            <Switch>
+                <PrivateRoute path="/relatoriosSJC" tela={tela} menu={MenuSJC}>
+                    <Relatorios/>
+                </PrivateRoute> 
+                <PrivateRoute path="/cadastroSJC" tela={tela} menu={MenuSJC}>
+                    <CadastroSJC />
+                </PrivateRoute>
+                <PrivateRoute path="/produtoSJC" tela={tela} menu={MenuSJC}>
+                    <ListaProdutoSJC />
+                </PrivateRoute>
+                <PrivateRoute path="/clienteSJC" tela={tela} menu={MenuSJC}>
+                    <ListaClientesSJC />
+                </PrivateRoute>
+                <PrivateRoute path="/servicoSJC" tela={tela} menu={MenuSJC}>
+                    <ListaServicoSJC />
+                </PrivateRoute>
+                <PrivateRoute path="/cadastroTaubate" tela={tela} menu={MenuTaubate}>
+                    <CadastroTaubate />
+                </PrivateRoute>
+                <PrivateRoute path="/relatoriosTaubate" tela={tela} menu={MenuTaubate}>
+                    <RelatoriosTaubate />
+                </PrivateRoute>
+                <PrivateRoute path="/produtoTaubate" tela={tela} menu={MenuTaubate}>
+                    <ListaProdutoTaubate />
+                </PrivateRoute>
+                <PrivateRoute path="/clienteTaubate" tela={tela} menu={MenuTaubate}>
+                    <ListaClientesTaubate />
+                </PrivateRoute>
+                <PrivateRoute path="/servicoTaubate" tela={tela} menu={MenuTaubate}>
+                    <ListaServicoTaubate />
+                </PrivateRoute>
+                <Route path="/" component={Login} />
+                <Route render={() => <div>Página não encontrada</div>} />
+            </Switch>
+        </Router>
+    );
+};
 
-    selecionarView(novaTela: string, evento: Event) {
-        evento.preventDefault()
-        console.log(novaTela);
-        this.setState({
-            tela: novaTela
-        })
-    }
-
-    handleLogin(event: React.FormEvent) {
-        event.preventDefault();
-        // Aqui você pode alterar o estado para refletir que o login foi bem-sucedido
-        this.setState({
-            tela: 'Clientes'
-        })
-    }
-
-    render() {
-        return (
-            <Router>
-                <Switch>
-                    <PrivateRoute path="/relatoriosSJC" tela={this.state.tela} menu={MenuSJC}>
-                        <Relatorios/>
-                    </PrivateRoute> 
-                    <PrivateRoute path="/cadastroSJC" tela={this.state.tela} menu={MenuSJC}>
-                        <CadastroSJC />
-                    </PrivateRoute>
-                    <PrivateRoute path="/produtoSJC" tela={this.state.tela} menu={MenuSJC}>
-                        <ListaProdutoSJC />
-                    </PrivateRoute>
-                    <PrivateRoute path="/clienteSJC" tela={this.state.tela} menu={MenuSJC}>
-                        <ListaClientesSJC />
-                    </PrivateRoute>
-                    <PrivateRoute path="/servicoSJC" tela={this.state.tela} menu={MenuSJC}>
-                        <ListaServicoSJC />
-                    </PrivateRoute>
-
-                    <PrivateRoute path="/cadastroTaubate" tela={this.state.tela} menu={MenuTaubate}>
-                        <CadastroTaubate />
-                    </PrivateRoute>                    
-                    <PrivateRoute path="/produtoTaubate" tela={this.state.tela} menu={MenuTaubate}>
-                        <ListaProdutoTaubate />
-                    </PrivateRoute>
-                    <PrivateRoute path="/clienteTaubate" tela={this.state.tela} menu={MenuTaubate}>
-                        <ListaClientesTaubate />
-                    </PrivateRoute>
-                    <PrivateRoute path="/servicoTaubate" tela={this.state.tela} menu={MenuTaubate}>
-                        <ListaServicoTaubate />
-                    </PrivateRoute>
-                    <PrivateRoute path="/relatoriosTaubate" tela={this.state.tela} menu={MenuTaubate}>
-                        <RelatoriosTaubate/>
-                    </PrivateRoute>
-                    <Route path="/">
-                        <Login />
-                    </Route>
-                </Switch>
-            </Router>
-        ); 
-    }
-}
+export default Roteador;
