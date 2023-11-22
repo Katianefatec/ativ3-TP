@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from '../estilos/styles.module.css';
@@ -25,57 +25,48 @@ type Servico = {
     generoMaisConsumidor: string;
 }
 
-type State = {
-    relatorios: Relatorio;
-    relatorioSelecionado: string;
-}
+function RelatoriosTaubate() {
+    const [relatorios, setRelatorios] = useState<Relatorio>({
+        top10ClientesMaisConsumo: [
+            { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 100, valorConsumido: 1000 },
+            { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 90, valorConsumido: 900 },
+            // ... outros clientes
+        ],
+            clientesPorGenero: [
+                { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 0 },
+                { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 0 },
+                // ... outros clientes
+            ],
+            servicosMaisConsumidos: [
+                { nome: 'Serviço 1', quantidadeConsumida: 100, generoMaisConsumidor: 'Masculino' },
+                { nome: 'Serviço 2', quantidadeConsumida: 90, generoMaisConsumidor: 'Feminino' },
+                // ... outros serviços
+            ],
+            servicosMaisConsumidosPorGenero: [
+                { nome: 'Serviço 1', quantidadeConsumida: 0, generoMaisConsumidor: 'Masculino' },
+                { nome: 'Serviço 2', quantidadeConsumida: 0, generoMaisConsumidor: 'Feminino' },
+                // ... outros serviços
+            ],
+            top10ClientesMenosConsumo: [
+                { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 10, valorConsumido: 100 },
+                { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 20, valorConsumido: 200 },
+                // ... outros clientes
+            ],
+            top5ClientesMaisValor: [
+                { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 1000 },
+                { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 900 },
+                // ... outros clientes
+            ],
+        });
 
-export default class RelatoriosTaubate extends React.Component<{}, State> {
-    constructor(props: {} | Readonly<{}>) {
-        super(props);
-        this.state = {
-            relatorios: {
-                top10ClientesMaisConsumo: [
-                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 100, valorConsumido: 1000 },
-                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 90, valorConsumido: 900 },
-                    // ... outros clientes
-                ],
-                clientesPorGenero: [
-                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 0 },
-                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 0 },
-                    // ... outros clientes
-                ],
-                servicosMaisConsumidos: [
-                    { nome: 'Serviço 1', quantidadeConsumida: 100, generoMaisConsumidor: 'Masculino' },
-                    { nome: 'Serviço 2', quantidadeConsumida: 90, generoMaisConsumidor: 'Feminino' },
-                    // ... outros serviços
-                ],
-                servicosMaisConsumidosPorGenero: [
-                    { nome: 'Serviço 1', quantidadeConsumida: 0, generoMaisConsumidor: 'Masculino' },
-                    { nome: 'Serviço 2', quantidadeConsumida: 0, generoMaisConsumidor: 'Feminino' },
-                    // ... outros serviços
-                ],
-                top10ClientesMenosConsumo: [
-                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 10, valorConsumido: 100 },
-                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 20, valorConsumido: 200 },
-                    // ... outros clientes
-                ],
-                top5ClientesMaisValor: [
-                    { nome: 'Cliente 1', genero: 'Masculino', quantidadeConsumida: 0, valorConsumido: 1000 },
-                    { nome: 'Cliente 2', genero: 'Feminino', quantidadeConsumida: 0, valorConsumido: 900 },
-                    // ... outros clientes
-                ],
-            },
-            relatorioSelecionado: '',
-        };
-    }
+    const [relatorioSelecionado, setRelatorioSelecionado] = useState('');
 
-    handleRelatorioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ relatorioSelecionado: event.target.value });
+
+    const handleRelatorioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRelatorioSelecionado(event.target.value);
     };
-    renderRelatorio = () => {
-        const { relatorios, relatorioSelecionado } = this.state;
-    
+
+    const renderRelatorio = () => {
         switch (relatorioSelecionado) {
             case 'top10ClientesMaisConsumo':
                 return (
@@ -186,12 +177,12 @@ export default class RelatoriosTaubate extends React.Component<{}, State> {
                             </tr>
                         </thead>
                         <tbody>
-                            {relatorios.top5ClientesMaisValor.map((cliente, index) => (
-                                <tr key={index}>
-                                    <td>{cliente.nome}</td>
-                                    <td>{cliente.valorConsumido}</td>
-                                </tr>
-                            ))}
+                        {relatorios.top5ClientesMaisValor.map((cliente, index) => (
+                            <tr key={index}>
+                                <td>{cliente.nome}</td>
+                                <td>{cliente.valorConsumido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                            </tr>
+                        ))}
                         </tbody>
                     </Table>
                 );
@@ -200,26 +191,26 @@ export default class RelatoriosTaubate extends React.Component<{}, State> {
             }
             }
 
-    render() {
-        return (
+    return (
+        <div className={styles['container-lista']}>
+        <div className={styles['wrap-cadastro']}>
+            <h1>Relatórios</h1>
 
-            <div className={styles['container-lista']}>
-                <div className={styles['wrap-cadastro']}>
-                    <h1>Relatórios</h1>
+            <Form.Control as="select" onChange={(event: any) => handleRelatorioChange(event)}>
+                <option value="">Selecione um relatório</option>
+                <option value="top10ClientesMaisConsumo">10 clientes que mais consumiram produtos ou serviços</option>
+                <option value="clientesPorGenero">Clientes por gênero</option>
+                <option value="servicosMaisConsumidos">Serviços ou produtos mais consumidos</option>
+                <option value="servicosMaisConsumidosPorGenero">Serviços ou produtos mais consumidos por gênero</option>
+                <option value="top10ClientesMenosConsumo">10 clientes que menos consumiram produtos ou serviços</option>
+                <option value="top5ClientesMaisValor">5 clientes que mais consumiram em valor</option>
+            </Form.Control>
 
-                    <Form.Control as="select" onChange={(event: any) => this.handleRelatorioChange(event)}>
-                        <option value="">Selecione um relatório</option>
-                        <option value="top10ClientesMaisConsumo">10 clientes que mais consumiram produtos ou serviços</option>
-                        <option value="clientesPorGenero">Clientes por gênero</option>
-                        <option value="servicosMaisConsumidos">Serviços ou produtos mais consumidos</option>
-                        <option value="servicosMaisConsumidosPorGenero">Serviços ou produtos mais consumidos por gênero</option>
-                        <option value="top10ClientesMenosConsumo">10 clientes que menos consumiram produtos ou serviços</option>
-                        <option value="top5ClientesMaisValor">5 clientes que mais consumiram em valor</option>
-                    </Form.Control>
+            {renderRelatorio()}
+        </div>
+    </div>
+);
 
-                    {this.renderRelatorio()}
-                </div>
-            </div>
-        );
-    }
 }
+
+export default RelatoriosTaubate;
