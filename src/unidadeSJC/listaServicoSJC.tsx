@@ -9,7 +9,7 @@ type Servico = {
     preco: number;
 }
 
-const ListaServicoSJC: React.FC = () => {
+function ListaServicoSJC() {
     const [servicos, setServicos] = useState<Servico[]>([]);
     const [servicoModal, setServicoModal] = useState<Servico>({ nome: '', preco: 0 });
     const [showModal, setShowModal] = useState(false);
@@ -78,8 +78,6 @@ const ListaServicoSJC: React.FC = () => {
         setShowModal(false);
     };
 
-    const servicosFiltrados = servicos.filter(servico => servico.nome.toLowerCase().includes(filtroServico.toLowerCase()));
-
     return (
         
             <>
@@ -97,8 +95,8 @@ const ListaServicoSJC: React.FC = () => {
                         </div> 
                             <Table striped hover>
                                 <thead>
-                                    <tr>
-                                        <th>Nome</th>
+                                <tr className={styles['coluna-left']}>
+                                        <th>Serviço</th>
                                         <th>Preço</th>
                                         <th>Alterar</th>
                                         <th>Excluir</th>
@@ -106,8 +104,8 @@ const ListaServicoSJC: React.FC = () => {
                                 </thead>
                                 <tbody>
                                 {servicos.map((servico, index) => (
-                                    <tr key={index} >
-                                    <td>{servico.nome}</td>
+                                    <tr className={styles['coluna-left']} key={index} >
+                                    <td className={styles['nome-servico']} id="nome-servico">{servico.nome}</td>
                                     <td>{servico.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td><button onClick={() => handleEditarClick(servico)}>Editar</button></td>
                                     <td><button onClick={() => handleExcluirClick(servico)}>Excluir</button></td>
@@ -125,7 +123,7 @@ const ListaServicoSJC: React.FC = () => {
                 <Modal.Body>
                     <form>
                         <div className="form-group">
-                            <label htmlFor="servicoNome">Nome</label>
+                            <label htmlFor="servicoNome">Serviço</label>
                             <input type="text" className="form-control" id="servicoNome" value={servicoModal?.nome} onChange={handleNomeChange} />
                         </div>
                         <div className="form-group">

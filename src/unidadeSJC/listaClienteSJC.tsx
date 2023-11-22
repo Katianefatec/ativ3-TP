@@ -201,25 +201,25 @@ function ListaClientesSJC () {
                     <div className={styles['table-responsive']}>
                     <Table striped hover>
                     <thead>
-                      <tr>
-                        <th colSpan={2}>Nome</th>
-                        <th colSpan={2}>Telefone</th>
-                        <th colSpan={1}>Detalhes</th>
-                        <th colSpan={1}>Consumo</th>                        
-                        <th colSpan={1}>Alterar</th>
-                        <th colSpan={1}>Excluir</th>
+                      <tr className={styles['coluna-left']}>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Detalhes</th>
+                        <th>Consumo</th>                        
+                        <th>Alterar</th>
+                        <th>Excluir</th>
                         
                       </tr>
                     </thead>
                     <tbody>
                     {clientesFiltrados.map((cliente: Cliente, index: number) => ( 
-                        <tr key={index}>
-                            <td colSpan={2}>{cliente.nome}</td>
-                            <td colSpan={2}>{cliente.telefones.join(', ')}</td>
-                            <td colSpan={1}><button onClick={() => handleRowClick(cliente)}>Detalhes</button></td>
-                            <td colSpan={1}><button onClick={() => handleConsumoClick(cliente)}>Adicionar</button></td>
-                            <td colSpan={1}><button onClick={() => handleAlterarClick(cliente)}>Editar</button></td>
-                            <td colSpan={1}><button onClick={() => handleExcluirClick(cliente)}>Excluir</button></td>
+                        <tr className={styles['coluna-left']} key={index} >
+                            <td>{cliente.nome}</td>
+                            <td>{cliente.telefones.join(', ')}</td>
+                            <td><button onClick={() => handleRowClick(cliente)}>Detalhes</button></td>
+                            <td><button onClick={() => handleConsumoClick(cliente)}>Adicionar</button></td>
+                            <td><button onClick={() => handleAlterarClick(cliente)}>Editar</button></td>
+                            <td><button onClick={() => handleExcluirClick(cliente)}>Excluir</button></td>
                             
                         </tr>
                     ))}

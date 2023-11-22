@@ -97,8 +97,8 @@ const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().
                 <div className={styles['table-responsive']}>
                   <Table striped hover>
                     <thead>
-                      <tr>
-                        <th>Nome</th>
+                    <tr className={styles['coluna-left']}>
+                        <th>Produto</th>
                         <th>Preço</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
@@ -106,7 +106,7 @@ const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().
                     </thead>
                     <tbody>
                     {produtosFiltrados.map((produto, index) => (
-                        <tr key={index} >
+                        <tr className={styles['coluna-left']} key={index} >
                           <td>{produto.nome}</td>
                           <td>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                           <td><button onClick={() => handleEditarClick(produto)}>Editar</button></td>
@@ -126,7 +126,7 @@ const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().
                 <Modal.Body>
                 <form>
                   <div className="form-group">
-                      <label htmlFor="produtoNome">Nome</label>
+                      <label htmlFor="produtoNome">Produto</label>
                       <input type="text" className="form-control" id="produtoNome" value={produtoModal?.nome} onChange={handleNomeChange} />
                   </div>
                   <div className="form-group">

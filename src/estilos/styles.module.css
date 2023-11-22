@@ -356,6 +356,12 @@ overflow-x: auto;
 
 }
 
+.coluna-left {
+        text-align: left;
+        
+    }
+
+    
 .full-width {
     width: 69%;
     margin-left: 22px;
@@ -423,4 +429,6 @@ overflow-x: auto;
     .container {
         flex-direction: row;
     }
+
+    
 
