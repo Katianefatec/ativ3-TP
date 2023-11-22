@@ -60,10 +60,10 @@ const ListaServicoSJC: React.FC = () => {
     };
 
     const handlePrecoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setServicoModal(prevServicoModal => ({
-            ...prevServicoModal,
-            preco: parseFloat(event.target.value) || prevServicoModal.preco
-        }));
+        if (servicoModal) {
+            const valor = parseFloat(event.target.value.replace(/\D/g,'')) / 100;
+            setServicoModal({ ...servicoModal, preco: valor });
+        }
     };
 
     const handleExcluirClick = (servico: Servico) => {
@@ -105,12 +105,12 @@ const ListaServicoSJC: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {servicosFiltrados.map((servico, index) => (
-                                    <tr key={index}>
-                                        <td>{servico.nome}</td>
-                                        <td>{servico.preco}</td>
-                                        <td><button onClick={() => handleEditarClick(servico)}>Editar</button></td>
-                                        <td><button onClick={() => handleExcluirClick(servico)}>Excluir</button></td>
+                                {servicos.map((servico, index) => (
+                                    <tr key={index} >
+                                    <td>{servico.nome}</td>
+                                    <td>{servico.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td><button onClick={() => handleEditarClick(servico)}>Editar</button></td>
+                                    <td><button onClick={() => handleExcluirClick(servico)}>Excluir</button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -130,7 +130,9 @@ const ListaServicoSJC: React.FC = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="servicoPreco">Preço</label>
-                            <input type="number" className="form-control" id="servicoPreco" value={servicoModal?.preco} onChange={handlePrecoChange} />
+                            <input type="text" className="form-control" id="servicoPreco" 
+                                value={servicoModal?.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} 
+                                onChange={handlePrecoChange} />
                         </div>
                     </form>
                 </Modal.Body>

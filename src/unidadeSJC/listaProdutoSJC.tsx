@@ -61,9 +61,10 @@ function ListaProdutoSJC() {
 };
 
 const handlePrecoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (produtoModal) {
-        setProdutoModal({ ...produtoModal, preco: parseFloat(event.target.value) });
-    }
+  if (produtoModal) {
+      const valor = parseFloat(event.target.value.replace(/\D/g,'')) / 100;
+      setProdutoModal({ ...produtoModal, preco: valor });
+  }
 };
 
 const handleCloseModal = () => {
@@ -107,11 +108,11 @@ const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().
                     {produtosFiltrados.map((produto, index) => (
                         <tr key={index} >
                           <td>{produto.nome}</td>
-                          <td>{produto.preco}</td>
+                          <td>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                           <td><button onClick={() => handleEditarClick(produto)}>Editar</button></td>
                           <td><button onClick={() => handleExcluirClick(produto)}>Excluir</button></td>
                         </tr>
-                      ))}
+                    ))}
                     </tbody>
                   </Table>
                 </div>
@@ -129,9 +130,11 @@ const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().
                       <input type="text" className="form-control" id="produtoNome" value={produtoModal?.nome} onChange={handleNomeChange} />
                   </div>
                   <div className="form-group">
-                      <label htmlFor="produtoPreco">Preço</label>
-                      <input type="number" className="form-control" id="produtoPreco" value={produtoModal?.preco} onChange={handlePrecoChange} />
-                  </div>
+                    <label htmlFor="produtoPreco">Preço</label>
+                    <input type="text" className="form-control" id="produtoPreco" 
+                        value={produtoModal?.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} 
+                        onChange={handlePrecoChange} />
+                </div>
                 </form>
                 </Modal.Body>
                 <Modal.Footer>
