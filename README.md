@@ -21,7 +21,7 @@
 <br>
 
 > 🔗 **Link** <br>
-> - Documento: [Clique para baixar atvii-wb.pdf](https://github.com/Prog-Technique/atv2/files/9995898/atvii-wb.pdf)
+> - Documento: https://github.com/Katianefatec/ativ3-TP.git
 
 
     
@@ -50,12 +50,11 @@
 
 - clone o repositório
 ~~~
-git clone https://github.com/Katianefatec/ativ2-TP.git 
-~~~
+git clone (https://github.com/Katianefatec/ativ3-TP.git)
     
 - entre no clone 
 ~~~
-cd atv2-TP
+cd atv3-TP
 ~~~
 
 - instale o necessario 
